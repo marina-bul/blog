@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <div class="posts-nav">
       <input
         v-model="searchQuery"
@@ -160,26 +160,7 @@ export default {
 };
 </script>
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-#app {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  font-family: "Roboto", sans-serif;
-  padding: 15px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
+<style scoped>
 .posts-nav {
   margin: 20px;
   display: flex;
