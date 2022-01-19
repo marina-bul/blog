@@ -6,6 +6,7 @@
     <input
       :value="post.title"
       @input="post.title = $event.target.value"
+      v-focus
       type="text"
       placeholder="Введите заголовок поста"
     >

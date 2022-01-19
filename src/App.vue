@@ -28,6 +28,7 @@ export default {
 }
 
 #app {
+  margin-left: 150px;
   width: calc(100% - 150px);
   display: flex;
   flex-direction: column;

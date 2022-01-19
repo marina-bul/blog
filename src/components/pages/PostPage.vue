@@ -27,7 +27,7 @@
 
     <div
       class="observer"
-      ref="observer"
+      v-intersection="fetchMorePosts"
     ></div>
     <!-- pagination -->
     <!-- <ul class="pages-wrapper">
@@ -138,17 +138,6 @@ export default {
   },
   mounted() {
     this.fetchPosts();
-    const options = {
-      rootMargin: "0px",
-      threshold: 1.0,
-    };
-    const callback = (entries) => {
-      if (entries[0].isIntersecting && this.currentPage < this.totalPages) {
-        this.fetchMorePosts();
-      }
-    };
-    const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer);
   },
 
   // for pagination
