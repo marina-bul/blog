@@ -74,16 +74,6 @@ export default {
       sortedPosts: "post/sortedPosts",
       searchPost: "post/searchPost",
     }),
-    // sortedPosts() {
-    //   return [...this.posts].sort((post1, post2) =>
-    //     post1[this.sortParam]?.localeCompare(post2[this.sortParam])
-    //   );
-    // },
-    // searchPost() {
-    //   return this.sortedPosts.filter((post) =>
-    //     post.title.includes(this.searchQuery)
-    //   );
-    // },
   },
   methods: {
     ...mapMutations({
@@ -110,44 +100,6 @@ export default {
     },
     // changePage(pageNum) {
     //   this.currentPage = pageNum;
-    // },
-
-    // async fetchPosts() {
-    //   try {
-    //     const responce = await axios(
-    //       "https://jsonplaceholder.typicode.com/posts?",
-    //       {
-    //         params: {
-    //           _limit: this.limit,
-    //           _page: this.currentPage,
-    //         },
-    //       }
-    //     );
-    //     this.posts = responce.data;
-    //     this.totalPages = Math.ceil(
-    //       responce.headers["x-total-count"] / this.limit
-    //     );
-    //   } catch (e) {
-    //     console.warn("Error");
-    //   }
-    // },
-
-    // async fetchMorePosts() {
-    //   try {
-    //     this.currentPage += 1;
-    //     const responce = await axios(
-    //       "https://jsonplaceholder.typicode.com/posts?",
-    //       {
-    //         params: {
-    //           _limit: this.limit,
-    //           _page: this.currentPage,
-    //         },
-    //       }
-    //     );
-    //     this.posts = [...this.posts, ...responce.data];
-    //   } catch (e) {
-    //     console.warn("Error");
-    //   }
     // },
   },
   mounted() {
