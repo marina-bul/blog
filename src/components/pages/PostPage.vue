@@ -2,14 +2,16 @@
   <div>
     <div class="posts-nav">
       <input
-        v-model="searchQuery"
+        :value="searchQuery"
+        @input="setSearchQuery($event.target.value)"
         placeholder="Найти..."
       />
       <card-button @click.native="showModal">
         Новый пост
       </card-button>
       <blog-select
-        v-model="sortParam"
+        :value="sortParam"
+        @input="setSortParam"
         :options="options"
       />
     </div>
@@ -43,9 +45,9 @@
 </template>
 
 <script>
-import axios from "axios";
 import PostsList from "@/components/PostsList.vue";
 import PostForm from "@/components/PostForm.vue";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -55,32 +57,44 @@ export default {
   },
   data() {
     return {
-      posts: [],
       showCreatePostModal: false,
-      sortParam: "",
-      options: [
-        { value: "title", name: "По названию" },
-        { value: "body", name: "По содержимому" },
-      ],
-      searchQuery: "",
-      currentPage: 1,
-      limit: 10,
-      totalPages: 0,
     };
   },
   computed: {
-    sortedPosts() {
-      return [...this.posts].sort((post1, post2) =>
-        post1[this.sortParam]?.localeCompare(post2[this.sortParam])
-      );
-    },
-    searchPost() {
-      return this.sortedPosts.filter((post) =>
-        post.title.includes(this.searchQuery)
-      );
-    },
+    ...mapState({
+      posts: (state) => state.post.posts,
+      sortParam: (state) => state.post.sortParam,
+      options: (state) => state.post.options,
+      searchQuery: (state) => state.post.searchQuery,
+      currentPage: (state) => state.post.currentPage,
+      limit: (state) => state.post.limit,
+      totalPages: (state) => state.post.totalPages,
+    }),
+    ...mapGetters({
+      sortedPosts: "post/sortedPosts",
+      searchPost: "post/searchPost",
+    }),
+    // sortedPosts() {
+    //   return [...this.posts].sort((post1, post2) =>
+    //     post1[this.sortParam]?.localeCompare(post2[this.sortParam])
+    //   );
+    // },
+    // searchPost() {
+    //   return this.sortedPosts.filter((post) =>
+    //     post.title.includes(this.searchQuery)
+    //   );
+    // },
   },
   methods: {
+    ...mapMutations({
+      setCurrentPage: "post/setCurrentPage",
+      setSearchQuery: "post/setSearchQuery",
+      setSortParam: "post/setSortParam",
+    }),
+    ...mapActions({
+      fetchPosts: "post/fetchPosts",
+      fetchMorePosts: "post/fetchMorePosts",
+    }),
     createPost(post) {
       this.posts.push(post);
       this.showCreatePostModal = false;
@@ -98,43 +112,43 @@ export default {
     //   this.currentPage = pageNum;
     // },
 
-    async fetchPosts() {
-      try {
-        const responce = await axios(
-          "https://jsonplaceholder.typicode.com/posts?",
-          {
-            params: {
-              _limit: this.limit,
-              _page: this.currentPage,
-            },
-          }
-        );
-        this.posts = responce.data;
-        this.totalPages = Math.ceil(
-          responce.headers["x-total-count"] / this.limit
-        );
-      } catch (e) {
-        console.warn("Error");
-      }
-    },
+    // async fetchPosts() {
+    //   try {
+    //     const responce = await axios(
+    //       "https://jsonplaceholder.typicode.com/posts?",
+    //       {
+    //         params: {
+    //           _limit: this.limit,
+    //           _page: this.currentPage,
+    //         },
+    //       }
+    //     );
+    //     this.posts = responce.data;
+    //     this.totalPages = Math.ceil(
+    //       responce.headers["x-total-count"] / this.limit
+    //     );
+    //   } catch (e) {
+    //     console.warn("Error");
+    //   }
+    // },
 
-    async fetchMorePosts() {
-      try {
-        this.currentPage += 1;
-        const responce = await axios(
-          "https://jsonplaceholder.typicode.com/posts?",
-          {
-            params: {
-              _limit: this.limit,
-              _page: this.currentPage,
-            },
-          }
-        );
-        this.posts = [...this.posts, ...responce.data];
-      } catch (e) {
-        console.warn("Error");
-      }
-    },
+    // async fetchMorePosts() {
+    //   try {
+    //     this.currentPage += 1;
+    //     const responce = await axios(
+    //       "https://jsonplaceholder.typicode.com/posts?",
+    //       {
+    //         params: {
+    //           _limit: this.limit,
+    //           _page: this.currentPage,
+    //         },
+    //       }
+    //     );
+    //     this.posts = [...this.posts, ...responce.data];
+    //   } catch (e) {
+    //     console.warn("Error");
+    //   }
+    // },
   },
   mounted() {
     this.fetchPosts();
