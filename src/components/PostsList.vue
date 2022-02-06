@@ -42,6 +42,7 @@ export default {
 
 <style scoped>
 .post-container {
+  margin: 50px 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

@@ -27,10 +27,8 @@
       @remove="removePost"
     />
 
-    <div
-      class="observer"
-      v-intersection="fetchMorePosts"
-    ></div>
+    <!-- for cursor pagination insert: 'v-intersection="fetchMorePosts"'-->
+    <div class="observer"></div>
     <!-- pagination -->
     <!-- <ul class="pages-wrapper">
       <li
@@ -47,7 +45,7 @@
 <script>
 import PostsList from "@/components/PostsList.vue";
 import PostForm from "@/components/PostForm.vue";
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "App",
@@ -81,10 +79,10 @@ export default {
       setSearchQuery: "post/setSearchQuery",
       setSortParam: "post/setSortParam",
     }),
-    ...mapActions({
-      fetchPosts: "post/fetchPosts",
-      fetchMorePosts: "post/fetchMorePosts",
-    }),
+    // ...mapActions({
+    //   fetchPosts: "post/fetchPosts",
+    //   fetchMorePosts: "post/fetchMorePosts",
+    // }),
     createPost(post) {
       this.posts.push(post);
       this.showCreatePostModal = false;
@@ -103,7 +101,7 @@ export default {
     // },
   },
   mounted() {
-    this.fetchPosts();
+    // this.fetchPosts();
   },
 
   // for pagination

@@ -1,6 +1,10 @@
 <template>
   <div class="material-card">
-    <div class="material-card__img-holder"></div>
+    <img
+      :src="require(`@/assets/${post.img ? post.img : 'logo.png'}`)"
+      alt="фото игры"
+      class="material-card__img-holder"
+    >
     <div class="material-card__body">
       <div class="material-card__title">
         <h3>{{post.title}}</h3>
@@ -21,14 +25,12 @@
     </div>
     <div class="material-card__footer">
       <ul>
-        <li class="footer-item">
-          some tag
-        </li>
-        <li class="footer-item">
-          some tag
-        </li>
-        <li class="footer-item">
-          some tag
+        <li
+          class="footer-item"
+          v-for="tag in post.tags"
+          :key="tag"
+        >
+          {{tag}}
         </li>
       </ul>
     </div>
@@ -92,8 +94,7 @@ export default {
 
 .material-card__img-holder {
   height: 250px;
-  background: url("https://cdn.pixabay.com/photo/2020/07/03/16/42/amsterdam-5367020__340.jpg")
-    no-repeat;
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
 }
@@ -159,12 +160,13 @@ export default {
 }
 
 .material-card__footer ul {
+  margin: 15px;
   display: flex;
   flex-wrap: wrap;
 }
 
 .material-card__footer .footer-item {
-  margin: 15px;
+  margin-right: 15px;
   color: rgba(175, 172, 172, 0.993);
   list-style-type: none;
   text-align: center;
