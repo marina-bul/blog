@@ -10,12 +10,14 @@
       type="text"
       placeholder="Введите заголовок поста"
     >
-    <input
+    <textarea
       :value="post.body"
       @input="post.body = $event.target.value"
       type="text"
       placeholder="Введите текст поста"
+      rows="7"
     >
+    </textarea>
     <card-button
       @click.native="writePost"
       class="new-post-btn"
@@ -53,18 +55,23 @@ export default {
 <style scoped>
 .create-post-form {
   margin: 30px 0;
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .create-post-form input {
   margin-bottom: 10px;
+}
+
+.create-post-form input,
+.create-post-form textarea {
   padding: 5px;
   border: 2px solid #fd6c01;
 }
 
 .create-post-form .new-post-btn {
+  margin-top: 15px;
   align-self: flex-end;
   font-size: 16px;
 }

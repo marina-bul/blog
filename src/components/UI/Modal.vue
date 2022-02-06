@@ -44,8 +44,8 @@ export default {
 
 .modal-content {
   margin: auto;
-  min-height: 50px;
-  min-width: 280px;
+  height: 300px;
+  width: 400px;
   padding: 20px;
   background-color: #fff;
   border: 3px solid #fd6c01;

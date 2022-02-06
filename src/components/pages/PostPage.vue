@@ -27,10 +27,8 @@
       @remove="removePost"
     />
 
-    <div
-      class="observer"
-      v-intersection="fetchMorePosts"
-    ></div>
+    <!-- for cursor pagination insert: 'v-intersection="fetchMorePosts"'-->
+    <div class="observer"></div>
     <!-- pagination -->
     <!-- <ul class="pages-wrapper">
       <li
@@ -47,7 +45,7 @@
 <script>
 import PostsList from "@/components/PostsList.vue";
 import PostForm from "@/components/PostForm.vue";
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "App",
@@ -74,16 +72,6 @@ export default {
       sortedPosts: "post/sortedPosts",
       searchPost: "post/searchPost",
     }),
-    // sortedPosts() {
-    //   return [...this.posts].sort((post1, post2) =>
-    //     post1[this.sortParam]?.localeCompare(post2[this.sortParam])
-    //   );
-    // },
-    // searchPost() {
-    //   return this.sortedPosts.filter((post) =>
-    //     post.title.includes(this.searchQuery)
-    //   );
-    // },
   },
   methods: {
     ...mapMutations({
@@ -91,10 +79,10 @@ export default {
       setSearchQuery: "post/setSearchQuery",
       setSortParam: "post/setSortParam",
     }),
-    ...mapActions({
-      fetchPosts: "post/fetchPosts",
-      fetchMorePosts: "post/fetchMorePosts",
-    }),
+    // ...mapActions({
+    //   fetchPosts: "post/fetchPosts",
+    //   fetchMorePosts: "post/fetchMorePosts",
+    // }),
     createPost(post) {
       this.posts.push(post);
       this.showCreatePostModal = false;
@@ -111,47 +99,9 @@ export default {
     // changePage(pageNum) {
     //   this.currentPage = pageNum;
     // },
-
-    // async fetchPosts() {
-    //   try {
-    //     const responce = await axios(
-    //       "https://jsonplaceholder.typicode.com/posts?",
-    //       {
-    //         params: {
-    //           _limit: this.limit,
-    //           _page: this.currentPage,
-    //         },
-    //       }
-    //     );
-    //     this.posts = responce.data;
-    //     this.totalPages = Math.ceil(
-    //       responce.headers["x-total-count"] / this.limit
-    //     );
-    //   } catch (e) {
-    //     console.warn("Error");
-    //   }
-    // },
-
-    // async fetchMorePosts() {
-    //   try {
-    //     this.currentPage += 1;
-    //     const responce = await axios(
-    //       "https://jsonplaceholder.typicode.com/posts?",
-    //       {
-    //         params: {
-    //           _limit: this.limit,
-    //           _page: this.currentPage,
-    //         },
-    //       }
-    //     );
-    //     this.posts = [...this.posts, ...responce.data];
-    //   } catch (e) {
-    //     console.warn("Error");
-    //   }
-    // },
   },
   mounted() {
-    this.fetchPosts();
+    // this.fetchPosts();
   },
 
   // for pagination

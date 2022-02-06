@@ -1,12 +1,18 @@
 <template>
   <div class="material-card">
-    <div class="material-card__img-holder"></div>
+    <img
+      :src="require(`@/assets/${post.img ? post.img : 'logo.png'}`)"
+      alt="фото игры"
+      class="material-card__img-holder"
+    >
     <div class="material-card__body">
       <div class="material-card__title">
-        <h3>{{post.id}}</h3>
         <h3>{{post.title}}</h3>
         <div class="btn-container">
-          <card-button class="card-btn">?</card-button>
+          <card-button
+            @click.native="bodyIsVisible = true"
+            class="card-btn"
+          >?</card-button>
           <card-button
             class="card-btn"
             @click.native="removePost"
@@ -19,26 +25,32 @@
     </div>
     <div class="material-card__footer">
       <ul>
-        <li class="footer-item">
-          some tag
-        </li>
-        <li class="footer-item">
-          some tag
-        </li>
-        <li class="footer-item">
-          some tag
+        <li
+          class="footer-item"
+          v-for="tag in post.tags"
+          :key="tag"
+        >
+          {{tag}}
         </li>
       </ul>
     </div>
-    <div class="material-card__overlay">
-      <div class="overlay__closer">
-        <h3>Card title</h3>
-        <p>X</p>
+    <transition name="overlay">
+      <div
+        v-show="bodyIsVisible"
+        class="material-card__overlay"
+      >
+        <div class="overlay__closer">
+          <h3>{{post.title}}</h3>
+          <card-button
+            @click.native="bodyIsVisible = false"
+            class="post-btn"
+          >X</card-button>
+        </div>
+        <div class="overlay__body">
+          <p>{{post.body}}</p>
+        </div>
       </div>
-      <div class="overlay__body">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis voluptate, distinctio suscipit nesciunt illum quod mollitia fugiat, omnis corrupti nostrum ipsa numquam ea error maiores cumque porro est labore rerum.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis voluptate, distinctio suscipit nesciunt illum quod mollitia fugiat, omnis corrupti nostrum ipsa numquam ea error maiores cumque porro est labore rerum.</p>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -50,6 +62,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  data() {
+    return { bodyIsVisible: false };
   },
   methods: {
     removePost() {
@@ -79,8 +94,7 @@ export default {
 
 .material-card__img-holder {
   height: 250px;
-  background: url("https://cdn.pixabay.com/photo/2020/07/03/16/42/amsterdam-5367020__340.jpg")
-    no-repeat;
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
 }
@@ -88,13 +102,15 @@ export default {
 .material-card__body {
   position: relative;
   height: auto;
-  padding: 15px;
+  padding: 25px 15px;
 }
 
 .material-card__body p {
   margin-top: 10px;
   line-height: 1.25;
   text-align: left;
+  height: 60px;
+  overflow: hidden;
 }
 
 .material-card__title {
@@ -105,6 +121,9 @@ export default {
 .material-card__title h3 {
   font-size: 20px;
   font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .material-card__title h3:after {
@@ -119,10 +138,17 @@ export default {
 .btn-container {
   position: absolute;
   right: 3%;
-  top: -35px;
+  top: -50px;
   width: 40%;
   display: flex;
   justify-content: space-between;
+}
+
+.post-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  border-radius: 30px;
 }
 
 .card-btn {
@@ -134,12 +160,13 @@ export default {
 }
 
 .material-card__footer ul {
+  margin: 15px;
   display: flex;
   flex-wrap: wrap;
 }
 
 .material-card__footer .footer-item {
-  margin: 15px;
+  margin-right: 15px;
   color: rgba(175, 172, 172, 0.993);
   list-style-type: none;
   text-align: center;
@@ -163,23 +190,18 @@ export default {
 .material-card__overlay {
   display: block;
   position: absolute;
-  bottom: -100%;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
-
-  transition: 0.2s linear;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .overlay__closer {
   padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .overlay__closer h3 {
+  margin-top: 30px;
   font-size: 20px;
   font-weight: bold;
 }
@@ -205,5 +227,15 @@ export default {
   overflow-y: auto;
   padding: 15px;
   line-height: 1.25;
+}
+
+.overlay-enter-active,
+.overlay-leave-active {
+  transition: all 0.4s;
+}
+
+.overlay-enter,
+.overlay-leave-to {
+  transform: translateY(100%);
 }
 </style>
