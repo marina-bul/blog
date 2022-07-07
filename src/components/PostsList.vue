@@ -10,7 +10,7 @@
           v-for="post in posts"
           :key="post.id"
           :post="post"
-          @remove="removePost"
+          @remove="$emit('remove', post)"
         />
       </transition-group>
     </div>
@@ -30,11 +30,6 @@ export default {
     posts: {
       type: Array,
       required: true,
-    },
-  },
-  methods: {
-    removePost(post) {
-      this.$emit("remove", post);
     },
   },
 };

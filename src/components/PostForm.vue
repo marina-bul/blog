@@ -18,6 +18,12 @@
       rows="7"
     >
     </textarea>
+
+    <input
+      type="file"
+      ref="postImage"
+      @change="sync"
+    />
     <card-button
       @click.native="writePost"
       class="new-post-btn"
@@ -33,15 +39,22 @@ export default {
       post: {
         title: "",
         body: "",
+        postImage: "",
       },
     };
   },
   methods: {
+    sync(e) {
+      e.preventDefault();
+      this.post.postImage = e.target.files[0];
+    },
+
     writePost() {
       const newPost = {
         id: Date.now(),
         title: this.post.title,
         body: this.post.body,
+        img: this.post.postImage,
         tags: [],
       };
       this.$emit("create", newPost);

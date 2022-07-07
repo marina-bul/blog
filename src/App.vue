@@ -1,7 +1,10 @@
 <template>
-  <div class="container">
+  <div
+    id="app"
+    class="container"
+  >
     <navbar />
-    <div id="app">
+    <div class="app">
       <router-view></router-view>
     </div>
   </div>
@@ -27,17 +30,23 @@ export default {
   justify-content: space-between;
 }
 
-#app {
+.app {
   margin-left: 150px;
   width: calc(100% - 150px);
+  padding: 15px;
   display: flex;
   flex-direction: column;
   font-family: "Roboto", sans-serif;
-  padding: 15px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+@media (max-width: 900px) {
+  .app {
+    margin-left: 0;
+    width: 100%;
+  }
 }
 </style>

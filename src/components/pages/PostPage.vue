@@ -2,6 +2,7 @@
   <div>
     <div class="posts-nav">
       <input
+        class="searchInput"
         :value="searchQuery"
         @input="setSearchQuery($event.target.value)"
         placeholder="Найти..."
@@ -45,7 +46,7 @@
 <script>
 import PostsList from "@/components/PostsList.vue";
 import PostForm from "@/components/PostForm.vue";
-import { mapState, mapGetters, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -75,20 +76,22 @@ export default {
   },
   methods: {
     ...mapMutations({
+      setPosts: "post/setPosts",
       setCurrentPage: "post/setCurrentPage",
       setSearchQuery: "post/setSearchQuery",
       setSortParam: "post/setSortParam",
     }),
-    // ...mapActions({
-    //   fetchPosts: "post/fetchPosts",
-    //   fetchMorePosts: "post/fetchMorePosts",
-    // }),
+    ...mapActions({
+      fetchPosts: "post/fetchPosts",
+      // fetchMorePosts: "post/fetchMorePosts",
+    }),
     createPost(post) {
       this.posts.push(post);
       this.showCreatePostModal = false;
     },
     removePost(post) {
-      this.posts = this.posts.filter((item) => item.id !== post.id);
+      const filteredPosts = this.posts.filter((item) => item.id !== post.id);
+      this.setPosts(filteredPosts);
     },
     showModal() {
       this.showCreatePostModal = true;
@@ -101,7 +104,7 @@ export default {
     // },
   },
   mounted() {
-    // this.fetchPosts();
+    this.fetchPosts();
   },
 
   // for pagination
@@ -120,7 +123,8 @@ export default {
   justify-content: space-between;
 }
 
-input {
+.searchInput {
+  padding: 0 5px;
   border: 2px solid #fd6c01;
   outline: none;
 }

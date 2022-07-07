@@ -1,43 +1,46 @@
 <template>
-  <div class="material-card">
+  <div class="post-card">
     <img
       :src="require(`@/assets/${post.img ? post.img : 'logo.png'}`)"
       alt="фото игры"
-      class="material-card__img-holder"
+      class="post-card__img"
     >
-    <div class="material-card__body">
-      <div class="material-card__title">
+    <div class="post-card__body">
+      <div class="post-card__title">
         <h3>{{post.title}}</h3>
-        <div class="btn-container">
+        <div class="post-card__btn-container">
           <card-button
             @click.native="bodyIsVisible = true"
-            class="card-btn"
+            class="post-card__btn"
           >?</card-button>
           <card-button
-            class="card-btn"
-            @click.native="removePost"
-          >Del</card-button>
+            class="post-card__btn"
+            @click.native="$emit('remove', post)"
+          >
+            <font-awesome-icon icon="fa-solid fa-trash" />
+          </card-button>
         </div>
 
       </div>
 
       <p>{{post.body}}</p>
     </div>
-    <div class="material-card__footer">
-      <ul>
+    <div class="post-card__footer">
+      <ul class="footer__list">
         <li
-          class="footer-item"
+          class="footer__item"
           v-for="tag in post.tags"
           :key="tag"
         >
           {{tag}}
         </li>
       </ul>
+      <span class="footer__date">{{post.date}}</span>
     </div>
     <transition name="overlay">
       <div
         v-show="bodyIsVisible"
-        class="material-card__overlay"
+        class="post-card__overlay"
       >
         <div class="overlay__closer">
           <h3>{{post.title}}</h3>
@@ -66,46 +69,39 @@ export default {
   data() {
     return { bodyIsVisible: false };
   },
-  methods: {
-    removePost() {
-      this.$emit("remove", this.post);
-    },
-  },
 };
 </script>
 
 <style scoped>
-.material-card {
+.post-card {
   position: relative;
-  background-color: #ffffff;
-  box-shadow: 0 0 5px lightgray;
   height: auto;
   margin: 10px auto;
   max-width: 320px;
   width: 100%;
-
-  transition: 0.3s linear;
-
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: 6px;
+  background-color: #ffffff;
+  box-shadow: 0 0 5px lightgray;
+  transition: 0.3s linear;
 }
 
-.material-card__img-holder {
+.post-card__img {
   height: 250px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
 }
 
-.material-card__body {
+.post-card__body {
   position: relative;
   height: auto;
   padding: 25px 15px;
 }
 
-.material-card__body p {
+.post-card__body p {
   margin-top: 10px;
   line-height: 1.25;
   text-align: left;
@@ -113,12 +109,12 @@ export default {
   overflow: hidden;
 }
 
-.material-card__title {
+.post-card__title {
   position: relative;
   display: flex;
 }
 
-.material-card__title h3 {
+.post-card__title h3 {
   font-size: 20px;
   font-weight: bold;
   white-space: nowrap;
@@ -126,7 +122,7 @@ export default {
   text-overflow: ellipsis;
 }
 
-.material-card__title h3:after {
+.post-card__title h3:after {
   content: "";
   display: block;
   width: auto;
@@ -135,7 +131,7 @@ export default {
   background-color: #fd6c01;
 }
 
-.btn-container {
+.post-card__btn-container {
   position: absolute;
   right: 3%;
   top: -50px;
@@ -144,36 +140,32 @@ export default {
   justify-content: space-between;
 }
 
-.post-btn {
-  position: absolute;
-  top: 5px;
-  right: 10px;
+.post-card__btn {
   border-radius: 30px;
 }
 
-.card-btn {
-  border-radius: 30px;
-}
-
-.material-card__footer {
+.post-card__footer {
   position: relative;
+  padding: 0 5px;
+  display: flex;
+  flex-direction: column;
 }
 
-.material-card__footer ul {
+.footer__list {
   margin: 15px;
   display: flex;
   flex-wrap: wrap;
+  list-style-type: none;
 }
 
-.material-card__footer .footer-item {
+.footer__item {
   margin-right: 15px;
   color: rgba(175, 172, 172, 0.993);
-  list-style-type: none;
   text-align: center;
   cursor: pointer;
 }
 
-.material-card__footer .footer-item:after {
+.footer__item:after {
   content: "";
   display: block;
   max-width: 0%;
@@ -183,17 +175,22 @@ export default {
   transition: 0.2s linear;
 }
 
-.material-card__footer .footer-item:hover:after {
+.footer__item:hover:after {
   max-width: 100%;
 }
 
-.material-card__overlay {
+.footer__date {
+  color: rgba(175, 172, 172, 0.993);
+  text-align: right;
+}
+
+.post-card__overlay {
   display: block;
   position: absolute;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: #fac9a6;
 }
 
 .overlay__closer {

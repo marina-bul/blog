@@ -52,4 +52,10 @@ li:hover {
   color: #fff;
   text-decoration: none;
 }
+
+@media (max-width: 900px) {
+  .navbar {
+    display: none;
+  }
+}
 </style>
