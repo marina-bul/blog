@@ -43,7 +43,11 @@ export default {
   color: #2c3e50;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
+  .container {
+    display: block;
+  }
+
   .app {
     margin-left: 0;
     width: 100%;

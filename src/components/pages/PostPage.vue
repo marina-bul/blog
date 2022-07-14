@@ -49,7 +49,6 @@ import PostForm from "@/components/PostForm.vue";
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
-  name: "App",
   components: {
     PostsList,
     PostForm,
